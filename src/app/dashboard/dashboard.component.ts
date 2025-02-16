@@ -24,6 +24,27 @@ export class DashboardComponent implements OnInit {
 
   getHeroes(): void {
     this.heroService.getHeroes()
-      .subscribe(heroes => this.heroes = heroes.slice(0, 10));
+      .subscribe(heroes => {
+        // Generar 10 índices aleatorios dentro del rango de la longitud del array de héroes
+        const randomHeroes = this.getRandomHeroes(heroes, 10);
+        this.heroes = randomHeroes;
+      });
+  }
+
+  getRandomHeroes(allHeroes: Hero[], count: number): Hero[] {
+    const randomHeroes = [];
+    const indicesElegidos = new Set<number>();
+
+    while (randomHeroes.length < count) {
+      const randomIndex = Math.floor(Math.random() * allHeroes.length);
+      
+      // Asegurarnos de no repetir héroes
+      if (!indicesElegidos.has(randomIndex)) {
+        randomHeroes.push(allHeroes[randomIndex]);
+        indicesElegidos.add(randomIndex);
+      }
+    }
+
+    return randomHeroes;
   }
 }
