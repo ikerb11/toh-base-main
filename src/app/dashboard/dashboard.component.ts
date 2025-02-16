@@ -20,6 +20,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHeroes();
+    // Nos suscribimos al observable del servicio para recibir los héroes actualizados
+    this.heroService.getHeroesUpdated().subscribe(heroes => {
+      this.heroes = heroes.slice(0, 10); // Solo mostramos los primeros 10 héroes
+    });
+
   }
 
   getHeroes(): void {

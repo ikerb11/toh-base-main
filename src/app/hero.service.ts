@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Hero } from './hero.interface';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class HeroService {
 
   private apiUrl = 'https://gateway.marvel.com/v1/public/characters';
   private apiKey = '06fe3b690c58704232529bd37f007479';
-
+  private heroesUpdated = new Subject<Hero[]>();
   constructor(
     private http: HttpClient
   ) { }
@@ -58,4 +58,13 @@ export class HeroService {
       })))
     );
   }
+    // Método para obtener el observable que emite los héroes
+    getHeroesUpdated(): Observable<Hero[]> {
+      return this.heroesUpdated.asObservable();
+    }
+  
+    // Método para actualizar los héroes que se emiten a través del Subject
+    updateHeroes(heroes: Hero[]): void {
+      this.heroesUpdated.next(heroes);
+    }
 }

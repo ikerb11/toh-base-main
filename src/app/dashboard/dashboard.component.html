@@ -1,4 +1,7 @@
 <h2>Top 5 Heroes</h2>
+
+<app-hero-search></app-hero-search>
+
 <div class="heroes-menu">
     @if (heroes) {
     @for (hero of heroes; track hero.id) {
@@ -10,7 +13,7 @@
     }
 </div>
 
-<app-hero-search></app-hero-search>
+
 
 <style>
     .heroes-menu {
