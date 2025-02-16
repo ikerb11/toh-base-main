@@ -1,0 +1,37 @@
+<h2>Top 5 Heroes</h2>
+<div class="heroes-menu">
+    @if (heroes) {
+    @for (hero of heroes; track hero.id) {
+    <a routerLink="/hero/{{hero.id}}" class="hero-item">
+        <img [src]="hero.thumbnail" [alt]="hero.name" class="hero-image"/>
+        <span class="hero-name">{{hero.name}}</span>
+    </a>
+    }
+    }
+</div>
+
+<app-hero-search></app-hero-search>
+
+<style>
+    .heroes-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .hero-item {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: black;
+    }
+    .hero-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    .hero-name {
+        font-size: 16px;
+        font-weight: bold;
+    }
+</style>
