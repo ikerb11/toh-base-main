@@ -14,11 +14,11 @@ import { HeroSearchComponent } from '../hero-search/hero-search.component';
   styleUrls: ['./heroes.component.scss']
 })
 export class HeroesComponent implements OnInit {
-  heroes: Hero[] = []; // Lista completa de héroes
+  heroes: Hero[] = []; // Lista completa de héroes (cargados progresivamente)
   paginatedHeroes: Hero[] = []; // Héroes de la página actual
-  pageSize: number = 20; // Número de héroes por página
+  pageSize: number = 20; // Héroes por página
   currentPage: number = 0; // Página actual
-  totalPages: number = 0; // Número total de páginas
+  totalPages: number = 0; // Total de páginas
 
   constructor(private heroService: HeroService) {}
 
@@ -27,10 +27,14 @@ export class HeroesComponent implements OnInit {
   }
 
   getHeroes(): void {
-    this.heroService.getAllHeroes().subscribe(heroes => {
-      this.heroes = heroes;
+    this.heroService.getAllHeroes().subscribe(newHeroes => {
+
+      this.heroes = [...this.heroes, ...newHeroes];
       this.totalPages = Math.ceil(this.heroes.length / this.pageSize);
-      this.updatePagination();
+
+      if (this.currentPage === 0) {
+        this.updatePagination();
+      }
     });
   }
 
@@ -41,12 +45,16 @@ export class HeroesComponent implements OnInit {
   }
 
   previousPage(): void {
-    this.currentPage = (this.currentPage - 1 + this.totalPages) % this.totalPages;
-    this.updatePagination();
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.updatePagination();
+    }
   }
 
   nextPage(): void {
-    this.currentPage = (this.currentPage + 1) % this.totalPages;
-    this.updatePagination();
+    if ((this.currentPage + 1) * this.pageSize < this.heroes.length) {
+      this.currentPage++;
+      this.updatePagination();
+    }
   }
 }
