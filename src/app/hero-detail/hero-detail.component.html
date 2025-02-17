@@ -3,9 +3,12 @@
     <h2>{{hero.name | uppercase}} Details</h2>
     <div><span>id: </span>{{hero.id}}</div>
     <div>
-        <label for="hero-name">Hero name: </label>
-        <img [src]="hero.thumbnail" [alt]="hero.name" class="hero-image"/>
-        <input id="hero-name" [(ngModel)]="hero.name" placeholder="Hero name" />
+        <img [src]="hero.thumbnail" [alt]="hero.name" class="hero-image"/> 
+        <p>
+            <label for="hero-name">Hero name: </label>
+            <input id="hero-name" [(ngModel)]="hero.name" placeholder="Hero name" />
+        </p>
+        <p class="hero-name">{{hero.description}}</p>
     </div>
     <button type="button" (click)="goBack()">go back</button>
 </div>

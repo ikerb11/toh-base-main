@@ -40,6 +40,7 @@ export class HeroService {
         return {
           id: hero.id,
           name: hero.name,
+          description: hero.description || 'No hay descripción disponible',
           thumbnail: `${hero.thumbnail.path}.${hero.thumbnail.extension}`
         };
       })

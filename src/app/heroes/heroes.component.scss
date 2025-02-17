@@ -1,4 +1,39 @@
 /* HeroesComponent's private CSS styles */
+
+.heroes-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.hero-item {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+}
+.hero-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.hero-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+.pagination-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+button {
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 .heroes {
     margin: 0 0 2em 0;
     list-style-type: none;

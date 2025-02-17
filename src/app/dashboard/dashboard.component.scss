@@ -1,5 +1,30 @@
 /* DashboardComponent's private CSS styles */
 
+.heroes-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-item {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+}
+
+.hero-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.hero-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
 h2 {
     text-align: center;
   }
@@ -52,4 +77,25 @@ h2 {
   a:hover {
     background-color: black;
   }
+  .heroes-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.hero-item {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+}
+.hero-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.hero-name {
+    font-size: 16px;
+    font-weight: bold;
+}
   
