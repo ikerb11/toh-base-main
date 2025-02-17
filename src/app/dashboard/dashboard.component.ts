@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
     this.getHeroes();
     // Nos suscribimos al observable del servicio para recibir los héroes actualizados
     this.heroService.getHeroesUpdated().subscribe(heroes => {
-      this.heroes = heroes.slice(0, 10); // Solo mostramos los primeros 10 héroes
+      this.heroes = heroes.slice(0, 5); 
     });
 
   }
@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
     this.heroService.getHeroes()
       .subscribe(heroes => {
         // Generar 10 índices aleatorios dentro del rango de la longitud del array de héroes
-        const randomHeroes = this.getRandomHeroes(heroes, 10);
+        const randomHeroes = this.getRandomHeroes(heroes, 5);
         this.heroes = randomHeroes;
       });
   }

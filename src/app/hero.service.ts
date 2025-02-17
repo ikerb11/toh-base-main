@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Hero } from './hero.interface';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, Subject, forkJoin  } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class HeroService {
 
   private apiUrl = 'https://gateway.marvel.com/v1/public/characters';
   private apiKey = '06fe3b690c58704232529bd37f007479';
+  private limit = 100;
   private heroesUpdated = new Subject<Hero[]>();
   constructor(
     private http: HttpClient
@@ -21,7 +23,7 @@ export class HeroService {
       map(response => response.data.results.map((hero: any) => ({
         id: hero.id,
         name: hero.name,
-        imageUrl: hero.thumbnail.path + '.' + hero.thumbnail.extension
+        thumbnail: `${hero.thumbnail.path}.${hero.thumbnail.extension}`
       })))
     );
   }
@@ -38,11 +40,35 @@ export class HeroService {
         return {
           id: hero.id,
           name: hero.name,
-          thumbnail: hero.thumbnail.path + '.' + hero.thumbnail.extension
+          thumbnail: `${hero.thumbnail.path}.${hero.thumbnail.extension}`
         };
       })
     );
   }
+
+    getAllHeroes(): Observable<Hero[]> {
+      // Hacemos una petición para obtener cuántos héroes existen
+      return this.http.get<any>(`${this.apiUrl}?apikey=${this.apiKey}&limit=1`).pipe(
+        map(response => {
+          const totalHeroes = response.data.total; // Número total de héroes en Marvel
+          const requests = [];
+          
+          // Calculamos cuántas peticiones necesitamos para obtener todos
+          for (let offset = 0; offset < totalHeroes; offset += this.limit) {
+            requests.push(this.http.get<any>(`${this.apiUrl}?apikey=${this.apiKey}&limit=${this.limit}&offset=${offset}`));
+          }
+          
+          // Hacemos todas las peticiones en paralelo
+          return forkJoin(requests).pipe(
+            map(responses => responses.flatMap(res => res.data.results.map((hero: any) => ({
+              id: hero.id,
+              name: hero.name,
+              thumbnail: `${hero.thumbnail.path}.${hero.thumbnail.extension}`
+            }))))
+          );
+        })
+      ).pipe(switchMap(obs => obs)); // Para devolver directamente el array de héroes
+    }
   
 
   searchHeroes(term: string): Observable<Hero[]> {
@@ -54,7 +80,7 @@ export class HeroService {
       map(response => response.data.results.map((hero: any) => ({
         id: hero.id,
         name: hero.name,
-        imageUrl: hero.thumbnail.path + '.' + hero.thumbnail.extension
+        thumbnail: `${hero.thumbnail.path}.${hero.thumbnail.extension}`
       })))
     );
   }

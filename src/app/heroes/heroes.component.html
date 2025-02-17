@@ -1,11 +1,58 @@
-<h2>HEROES</h2>
+<h2>Lista de Héroes</h2>
+<h4>Puede tardar en cargar</h4>
 
-<ul class="heroes">
-    @for (hero of heroes; track hero.id) {
-    <li>
-        <a routerLink="/hero/{{hero.id}}">
-            <span class="badge">{{hero.id}}</span> {{hero.name}}
-        </a>
-    </li>
+<app-hero-search></app-hero-search>
+
+<div class="heroes-menu">
+    @if (paginatedHeroes) {
+    @for (hero of paginatedHeroes; track hero.id) {
+    <a routerLink="/hero/{{hero.id}}" class="hero-item">
+        <img [src]="hero.thumbnail" [alt]="hero.name" class="hero-image"/>
+        <span class="hero-name">{{hero.name}}</span>
+    </a>
     }
-</ul>
+    }
+</div>
+
+<!-- Controles de paginación -->
+<div class="pagination-controls">
+    <button (click)="previousPage()">Anterior</button>
+    <span>Página {{ currentPage + 1 }} de {{ totalPages }}</span>
+    <button (click)="nextPage()">Siguiente</button>
+</div>
+
+<style>
+    .heroes-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .hero-item {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: black;
+    }
+    .hero-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    .hero-name {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .pagination-controls {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    button {
+        padding: 5px 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
