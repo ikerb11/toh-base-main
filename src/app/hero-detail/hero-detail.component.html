@@ -4,6 +4,7 @@
     <div><span>id: </span>{{hero.id}}</div>
     <div>
         <label for="hero-name">Hero name: </label>
+        <img [src]="hero.thumbnail" [alt]="hero.name" class="hero-image"/>
         <input id="hero-name" [(ngModel)]="hero.name" placeholder="Hero name" />
     </div>
     <button type="button" (click)="goBack()">go back</button>
